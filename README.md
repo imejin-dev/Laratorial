@@ -14,3 +14,6 @@ docker-compose up
 docker-compose composer install
 docker-compose exec app php artisan key:generate #初回のみ
 ```
+
+## 使い方
+TDDでAPIを作ってTODOアプリを完成させてください。
