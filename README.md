@@ -11,5 +11,6 @@ cp src/.env.default src/.env
 ```bash
 docker-compose build #初回のみ
 docker-compose up
-docker-compose php artisan key:generate #初回のみ
+docker-compose composer install
+docker-compose exec app php artisan key:generate #初回のみ
 ```
