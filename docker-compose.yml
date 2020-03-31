@@ -36,11 +36,13 @@ services:
       - TZ=${TZ:-Asia/Tokyo}
 
   db:
-    image: mysql:8.0
+    build:
+      context: ./docker/mysql
     volumes:
       - db-store:/var/lib/mysql
-      - ./logs:/var/log/mysql
+      - db-log-store:/var/log/mysql
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    command: --innodb-use-native-aio=0
     environment:
       - MYSQL_DATABASE=${DB_NAME:-homestead}
       - MYSQL_USER=${DB_USER:-homestead}
@@ -51,12 +53,13 @@ services:
       - ${DB_PORT:-13306}:3306
 
   db-testing:
-    image: mysql:8.0
+    build:
+      context: ./docker/mysql
     volumes:
+      - test-db-log-store:/var/log/mysql
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     tmpfs:
       - /var/lib/mysql
-      - /var/log/mysql
     environment:
       - MYSQL_DATABASE=${DB_NAME:-homestead}
       - MYSQL_USER=${DB_USER:-homestead}
@@ -75,3 +78,5 @@ services:
 
 volumes:
   db-store:
+  db-log-store:
+  test-db-log-store:
